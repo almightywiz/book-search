@@ -85,10 +85,10 @@ export class OpenLibrarySearchService extends OpenLibraryService {
       searchTag = term[OpenLibrarySearchService.SEARCH_TERM_TAG];
       searchTerm = term[OpenLibrarySearchService.SEARCH_TERM_TERM];
       if (OpenLibrarySearchService.SUPPORTED_SEARCH.includes(searchTag)) {
-        searchTerms[searchTag] += ' '' + searchTerm.toString() + ''';
+        searchTerms[searchTag] += ' "' + searchTerm.toString() + '"';
       } else if (searchTag == null) {
         searchTerms[OpenLibrarySearchService.DEFAULT_SEARCH_CRIT] +=
-          ' '' + searchTerm.toString() + ''';
+          ' "' + searchTerm.toString() + '"';
       }
     }
   }
