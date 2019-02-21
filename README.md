@@ -2,17 +2,6 @@
 
 A simple search engine wrapper around the OpenLibrary APIs.
 
-## Contents
-
-- [Features](#Features)
-- [Configuration](#Configurations)
-  - [Required](#Required-Configurations)
-  - [Optional](#Optional-Configurations)
-- [Requirements](#Requirements)
-- [Known Issues](#Known-Issues)
-- [Demos](#Demos)
-- [Major Release Notes](#Major-Release-Notes)
-
 ## Description
 
 This application is a simple wrapper around the OpenLibrary API.
@@ -95,7 +84,8 @@ To install and execute the application, the following steps are required.
 
 Once the server is started, it will be accessible by navigating to http://localhost:4200.
 
-## Backlog (in no specific priority)
+## Backlog
+(in no specific priority)
 
 1. Complete automated testing.
 - Due to the nature of this exercise, only a few tests were created to showcase my ability to write tests.
