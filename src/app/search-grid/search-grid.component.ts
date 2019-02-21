@@ -15,13 +15,7 @@ export class SearchGridComponent implements AfterViewInit {
 
   search = new FormControl('');
   columnDefs = [
-    { headerName: 'Cover', field: 'cover_edition_key', sortable: false, filter: false, cellRenderer: function(params) {
-        if (params.value) {
-          return '<img src="http://covers.openlibrary.org/b/olid/' + params.value + '-S.jpg" />';
-        }
-        return '';
-      }
-    },
+    { headerName: 'Cover', field: 'cover_edition_key', sortable: false, filter: false, cellRenderer: this.cellRendererCover},
     { headerName: 'Title', field: 'title'},
     { headerName: 'Author', field: 'author_name'},
     { headerName: '# of Editions', field: 'edition_count', filter: false }
@@ -29,6 +23,13 @@ export class SearchGridComponent implements AfterViewInit {
 
   gridOptions: GridOptions;
   SUPPORTED_SEARCH_OPTIONS = OpenLibrarySearchService.SUPPORTED_SEARCH;
+
+  cellRendererCover(params): string {
+    if (params.value) {
+      return '<img src="http://covers.openlibrary.org/b/olid/' + params.value + '-S.jpg" />';
+    }
+    return '';
+  }
 
   constructor(private route: ActivatedRoute, private openLibraryService: OpenLibrarySearchService, private router: Router) {
     this.gridOptions = {
@@ -42,18 +43,22 @@ export class SearchGridComponent implements AfterViewInit {
       rowHeight: 600 / 9,
       rowData: [],
       columnDefs: this.columnDefs,
-      onGridReady: function(params) {
-        this.gridOptions = params;
-      },
-      onRowSelected: function(params) {
-        if(params.node.isSelected()) {
-          const key = params.node.data.cover_edition_key || params.node.data.edition_key[0];
-          router.navigate(['/detail', key]);
-        }
-      },
+      onGridReady: this.agGridOnReady,
+      onRowSelected: this.agGridRowSelected,
       pagination: true,
       paginationAutoPageSize: true
     };
+  }
+
+  agGridOnReady(params): void {
+    this.gridOptions = params;
+  }
+
+  agGridRowSelected(params): void {
+    if (params.node.isSelected()) {
+      const key = params.node.data.cover_edition_key || params.node.data.edition_key[0];
+      this.router.navigate(['/detail', key]);
+    }
   }
 
   performSearch(): void {

@@ -26,8 +26,12 @@ export class OpenLibrarySearchService extends OpenLibraryService {
   }
 
   buildSearchTerms(terms: object[]): string {
-    let searchTerm = '';
-    let searchTerms = {
+    let query = '';
+    let searchTag: string;
+    let searchTerm: string;
+    const TAG = 'tag';
+    const TERM = 'term';
+    const searchTerms = {
       q : ''
     };
 
@@ -36,19 +40,20 @@ export class OpenLibrarySearchService extends OpenLibraryService {
     }
 
     for (const term of terms) {
-      if(OpenLibrarySearchService.SUPPORTED_SEARCH.includes(term['tag'])) {
-         searchTerms[term['tag']] += ' "' + term['term'].toString() + '"';
-      }
-      else if (term["tag"] == null) {
-        searchTerms.q += ' "' + term['term'].toString() + '"';
+      searchTag = term[TAG];
+      searchTerm = term[TERM];
+      if (OpenLibrarySearchService.SUPPORTED_SEARCH.includes(searchTag)) {
+         searchTerms[searchTag] += ' "' + searchTerm.toString() + '"';
+      } else if (searchTag == null) {
+        searchTerms.q += ' "' + searchTerm.toString() + '"';
       }
     }
 
-    for(const key of Object.keys(searchTerms)) {
+    for (const key of Object.keys(searchTerms)) {
       if (searchTerms[key]) {
-        searchTerm += key + '=' + searchTerms[key].trim() + '&';
+        query += key + '=' + searchTerms[key].trim() + '&';
       }
     }
-    return searchTerm.substring(0, searchTerm.length - 1);
+    return query.substring(0, query.length - 1);
   }
 }
