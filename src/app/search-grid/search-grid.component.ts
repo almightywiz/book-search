@@ -24,6 +24,13 @@ export class SearchGridComponent implements AfterViewInit {
   gridOptions: GridOptions;
   SUPPORTED_SEARCH_OPTIONS = OpenLibrarySearchService.SUPPORTED_SEARCH;
 
+  /**
+   * Provide HTML rendering for cover cell to an IMG tag.
+   *
+   * @param   params  List of event parameters
+   *
+   * @return  An IMG tag if there is a cover value; empty string if not.
+   */
   cellRendererCover(params): string {
     if (params.value) {
       return '<img src="http://covers.openlibrary.org/b/olid/' + params.value + '-S.jpg" />';
@@ -61,6 +68,9 @@ export class SearchGridComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Perform API search based on the 's' URL parameter.
+   */
   performSearch(): void {
     if (this.route.snapshot.queryParamMap.has('s')) {
       this.gridOptions.api.setSortModel([{colId: 'title', sort: 'asc'}]);
@@ -70,13 +80,18 @@ export class SearchGridComponent implements AfterViewInit {
       this.search.setValue(this.route.snapshot.queryParamMap.get('s'));
 
       this.openLibraryService
-        .getDocuments(terms, undefined)
-        .subscribe((response: OpenLibrarySearchResponse) => {
+        .getDocuments(terms)
+        .then(res => res.subscribe((response: OpenLibrarySearchResponse) => {
           this.gridOptions.api.setRowData(response.docs);
-        });
+        }));
     }
   }
 
+  /**
+   * Perform API search by injecting the search query string diretly into the URL.
+   *
+   * This allows for bookmarking searches.
+   */
   onSearchClick(): void {
     this.router.navigate(['/search'], {queryParams: { s: this.search.value }}).then( () => this.performSearch());
   }
