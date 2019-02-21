@@ -43,8 +43,8 @@ export class SearchGridComponent implements AfterViewInit {
       rowHeight: 600 / 9,
       rowData: [],
       columnDefs: this.columnDefs,
-      onGridReady: this.agGridOnReady,
-      onRowSelected: this.agGridRowSelected,
+      onGridReady: this.agGridOnReady.bind(this),
+      onRowSelected: this.agGridRowSelected.bind(this),
       pagination: true,
       paginationAutoPageSize: true
     };
