@@ -1,0 +1,52 @@
+<div style="text-align: center;">
+  <div *ngIf="book">
+    <table style="margin: auto; width: 900px; border: 1px solid #000000;">
+      <tr *ngIf="book.cover">
+        <td rowspan=7 style="padding: 5px;">
+          <img src="{{ book.cover['large'] }}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="font-size: 175%; width: 100%;">
+          {{ book.title }}
+        </td>
+      </tr>
+      <tr>
+        <td style="font-size: 150%;">
+          <ng-container *ngFor="let author of book.authors">
+            {{ author["name"] }}<br />
+          </ng-container>
+          <br />
+        </td>
+      </tr>
+      <tr style="height: 100%; vertical-align: middle;">
+        <td>
+          <ng-container *ngFor="let excerpt of book.excerpts">
+            <div *ngIf="excerpt['comment']">
+              <strong>{{ excerpt["comment"] | titlecase }}</strong><br />
+              "{{ excerpt["text"] }}"
+              <br /><br />
+            </div>
+          </ng-container>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          {{ book.number_of_pages }} pages
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Published on {{ book.publish_date }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href="{{ book.url }}" target="_blank">OpenLibrary Reference</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <br />
+  <button (click)="goBack()">Back</button>
+</div>

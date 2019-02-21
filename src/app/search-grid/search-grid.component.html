@@ -1,0 +1,20 @@
+<div style="text-align:center">
+  <input type="text" [formControl]="search" (keydown.enter)="onSearchClick()">&nbsp;<button type="submit" (click)="onSearchClick()">Search</button>&nbsp;
+  <div class="tooltip">
+    [?]
+    <span class="tooltiptext">
+      Supported search directives:
+      <ul>
+        <li *ngFor="let crit of SUPPORTED_SEARCH_OPTIONS">{{ crit }}</li>
+      </ul>
+      Example - author:"Frank Herbert"
+    </span>
+  </div>
+</div>
+<br />
+<ag-grid-angular
+  class="ag-theme-balham"
+  [gridOptions]="gridOptions"
+  style="margin: auto; width: 900px; height: 600px;"
+  >
+</ag-grid-angular>
